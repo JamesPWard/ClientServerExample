@@ -40,6 +40,11 @@ namespace Server
             {
                 sw.WriteLine(GetReturnMessage(receivedMessage));
                 sw.Flush();
+                
+                if (receivedMessage == "/end")
+                {
+                    break;
+                }
             }
             
             socket.Close();
