@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -7,25 +8,28 @@ namespace Server
 {
     public class SimpleServer
     {
-        private TcpListener TcpListener;
-
+        private TcpListener _tcpListener;
+        
         public SimpleServer(string ipAddress, int port)
         {
             IPAddress ip = IPAddress.Parse(ipAddress);
-            TcpListener = new TcpListener(ip, port);
+            _tcpListener = new TcpListener(ip, port);
         }
 
         public void Start()
         {
             //Start listener and accept socket
-            TcpListener.Start();
-            SocketMethod(TcpListener.AcceptSocket());
+            _tcpListener.Start();
+
+            Socket sock = _tcpListener.AcceptSocket();
+            
+            SocketMethod(sock);
         }
 
         public void Stop()
         {
             //Kill TCPListener instance
-            TcpListener.Stop();
+            _tcpListener.Stop();
         }
 
         private void SocketMethod(Socket socket)
@@ -36,8 +40,14 @@ namespace Server
             StreamReader sr = new StreamReader(ns, Encoding.UTF8);
             StreamWriter sw = new StreamWriter(ns, Encoding.UTF8);
             
+            Console.WriteLine("Started server!");
+            
+            sw.WriteLine(GetReturnMessage("Hello"));
+            sw.Flush();
+            
             while ((receivedMessage = sr.ReadLine()) != null)
             {
+                Console.WriteLine("message = " + receivedMessage);
                 sw.WriteLine(GetReturnMessage(receivedMessage));
                 sw.Flush();
                 

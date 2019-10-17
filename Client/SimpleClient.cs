@@ -41,8 +41,10 @@ namespace Client
         public void Run()
         {
             string userInput;
-            ProcessServerResponse();
+            Console.WriteLine("Processing server response...");
             
+            ProcessServerResponse();
+
             Console.WriteLine("Input: ");
             while ((userInput = Console.ReadLine()) != null)
             {

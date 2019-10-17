@@ -9,7 +9,7 @@ namespace Server
             SimpleServer ss = new SimpleServer("127.0.0.1", 1337);
 
             ss.Start();
-            //ss.Stop();
+            ss.Stop();
         }
     }
 }
